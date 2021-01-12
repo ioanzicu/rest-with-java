@@ -37,4 +37,8 @@ public class AlienRepository {
 		
 		return new Alien();
 	}
+	
+	public void create(Alien newAlien) {
+		aliens.add(newAlien);
+	}
 }

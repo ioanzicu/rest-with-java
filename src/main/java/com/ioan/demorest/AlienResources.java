@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -18,8 +19,15 @@ public class AlienResources {
 	public List<Alien> getAlien() {
 		
 		System.out.println("getAlien called");
-		
-
 		return repo.getAliens();
+	}
+	
+	@POST
+	@Path("alien")
+	public Alien ceateAlien(Alien newAlien) {
+		System.out.println(newAlien);
+		repo.create(newAlien);
+		
+		return newAlien;
 	}
 }
