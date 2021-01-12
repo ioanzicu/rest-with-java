@@ -92,4 +92,21 @@ public class AlienRepository {
 			System.out.println("Statement error " + e);
 		}
 	}
+	
+	public void update(Alien newAlien) {
+		String sql = "UPDATE aliens set name=?, points=? where id=?";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, newAlien.getName());
+			statement.setInt(2, newAlien.getPoints());
+			statement.setInt(3, newAlien.getId());
+			
+			statement.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("Statement error " + e);
+		}
+	}
 }
