@@ -2,43 +2,94 @@ package com.ioan.demorest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.sql.*;
 
 public class AlienRepository {
 	
-	List<Alien> aliens;
+	private final String url = "jdbc:postgresql://localhost:5432/aliens";
+	private Connection connection = null;
 	
 	public AlienRepository() {
-		aliens = new ArrayList<Alien>();
+		Properties props = new Properties();
+		props.setProperty("user", "postgres");
+		props.setProperty("password", "ioan");
+		try {
+			Class.forName("org.postgresql.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class not found " + e);
+		}
 		
-		Alien a1 = new Alien();
-		a1.setId(1);
-		a1.setName("Vitoro");
-		a1.setPoints(56);
-		
-		Alien a2 = new Alien();
-		a2.setId(2);
-		a2.setName("Clostor");
-		a2.setPoints(67);
-		
-		aliens.add(a1);
-		aliens.add(a2);
+		try {
+			connection = DriverManager.getConnection(url, props);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	public List<Alien> getAliens() {
-		return aliens;
-	}
+		System.out.println("Fetch aliens from DB");
 	
-	public Alien getAlien(int id) {
+		List<Alien> aliens = new ArrayList<Alien>();
+		String sql = "SELECT * FROM aliens";
 		
-		for (Alien a: aliens) {
-			if (a.getId() == id)
-				return a;
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);	
+			
+			while(resultSet.next()) {
+				Alien tempAlien = new Alien();
+				tempAlien.setId(resultSet.getInt(1));
+				tempAlien.setName(resultSet.getString(2));
+				tempAlien.setPoints(resultSet.getInt(3));
+				
+				aliens.add(tempAlien);
+			}
+		} catch(Exception e) {
+			System.out.println("Statement error " + e);
 		}
 		
-		return new Alien();
+		return aliens;
+	}
+
+	public Alien getAlien(int id) {
+		System.out.println("Fetch an alien by ID from DB");
+		
+		String sql = "SELECT * FROM aliens WHERE id=" + id;
+		Alien tempAlien = new Alien();
+
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);	
+			
+			if(resultSet.next()) {
+				tempAlien.setId(resultSet.getInt(1));
+				tempAlien.setName(resultSet.getString(2));
+				tempAlien.setPoints(resultSet.getInt(3));
+			}
+		} catch(Exception e) {
+			System.out.println("Statement error " + e);
+		}
+		
+		return tempAlien;
 	}
 	
 	public void create(Alien newAlien) {
-		aliens.add(newAlien);
+		String sql = "INSERT INTO aliens values (?, ?, ?)";
+		
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			
+			statement.setInt(1, newAlien.getId());
+			statement.setString(2, newAlien.getName());
+			statement.setInt(3, newAlien.getPoints());
+			
+			statement.executeUpdate();
+			
+		} catch(Exception e) {
+			System.out.println("Statement error " + e);
+		}
 	}
 }

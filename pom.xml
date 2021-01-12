@@ -14,8 +14,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <inherited>true</inherited>
                 <configuration>
-                    <!-- <source>1.6</source>
-                    <target>1.6</target> -->
                 	<release>13</release>
                 </configuration>
             </plugin>
@@ -74,6 +72,12 @@
             <version>${glassfish.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>42.2.18</version>
+		</dependency>
     </dependencies>
     <properties>
         <jersey.version>1.19.4</jersey.version>
