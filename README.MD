@@ -7,8 +7,8 @@
 - All aliens
 	
 	Headers:
-	 - Content-Type application/json | application/xml
-	 - Accept		application/json | application/xml
+	 - Content-Type `application/json` | `application/xml`
+	 - Accept		`application/json` | `application/xml`
 	
 	```bash
 	http://localhost:8080/demorest/webresources/aliens
@@ -45,8 +45,8 @@
 - Alien by ID
 	
 	Headers:
-	 - Content-Type application/json | application/xml
-	 - Accept		application/json | application/xml
+	 - Content-Type `application/json` | `application/xml`
+	 - Accept		`application/json` | `application/xml`
 	
 	
 	```bash
@@ -64,9 +64,13 @@
 ## POST
 
 Headers:
- - Content-Type application/json | application/xml
- - Accept		application/json | application/xml
+ - Content-Type `application/json` | `application/xml`
+ - Accept		`application/json` | `application/xml`
 	 
+```bash
+http://localhost:8080/demorest/webresources/aliens/alien
+```
+
 **Example of Request Body - JSON**
 ```json
 {
@@ -83,4 +87,62 @@ Headers:
   <name>Trower</name>
   <points>100</points>
 </alien>
+```
+
+**Example of 200 Response - JSON**
+```json
+{
+  "id": "105",
+  "name": "Trower",
+  "points": "100"
+}
+```
+
+Similar for XML
+
+## PUT
+
+If no object with such `ID` it will create new one, otherwise, update
+
+Headers:
+ - Content-Type `application/json` | `application/xml`
+ - Accept		`application/json` | `application/xml`
+
+```bash
+http://localhost:8080/demorest/webresources/aliens/alien
+```
+
+**Example of Request Body - JSON**
+```json
+{
+   "id": "1055",
+   "name": "Honter",
+   "points": "91"
+}
+```
+
+**Example of 200 Response - JSON**
+```json
+{
+   "id": "1055",
+   "name": "Honter",
+   "points": "91"
+}
+```
+
+## DELETE
+
+Returns deleted object
+
+```bash
+http://localhost:8080/demorest/webresources/aliens/alien/111
+```
+
+**Example of 200 Response - JSON**
+```json
+{
+    "id": "1034",
+    "name": "Trower",
+    "points": "100"
+}
 ```

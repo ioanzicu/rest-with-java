@@ -48,7 +48,7 @@ public class AlienRepository {
 				aliens.add(tempAlien);
 			}
 		} catch(Exception e) {
-			System.out.println("Statement error " + e);
+			System.out.println("Statement error GET ALL, " + e);
 		}
 		
 		return aliens;
@@ -70,7 +70,7 @@ public class AlienRepository {
 				tempAlien.setPoints(resultSet.getInt(3));
 			}
 		} catch(Exception e) {
-			System.out.println("Statement error " + e);
+			System.out.println("Statement error GET by ID, " + e);
 		}
 		
 		return tempAlien;
@@ -89,7 +89,7 @@ public class AlienRepository {
 			statement.executeUpdate();
 			
 		} catch(Exception e) {
-			System.out.println("Statement error " + e);
+			System.out.println("Statement error for CREATE, " + e);
 		}
 	}
 	
@@ -104,9 +104,19 @@ public class AlienRepository {
 			statement.setInt(3, newAlien.getId());
 			
 			statement.executeUpdate();
-			
 		} catch(Exception e) {
-			System.out.println("Statement error " + e);
+			System.out.println("Statement error for UPDATE, " + e);
+		}
+	}
+	
+	public void delete(int id) {
+		String sql = "DELETE FROM aliens WHERE id=?";
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("Statement error for DELETE, " + e);
 		}
 	}
 }

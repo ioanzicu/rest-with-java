@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -36,9 +37,8 @@ public class AlienResources {
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public Alien ceateAlien(Alien newAlien) {
 		System.out.println(newAlien);
+	
 		repo.create(newAlien);
-		System.out.println(newAlien);
-		
 		return newAlien;
 	}
 	
@@ -57,4 +57,17 @@ public class AlienResources {
 		
 		return alien;
 	}
+	
+	@DELETE
+	@Path("alien/{id}")
+	public Alien deleteAlien(@PathParam("id") int id) {
+		Alien alien = repo.getAlien(id);
+		
+		if (alien.getId() != 0) {			
+			repo.delete(id);
+		}
+		
+		return alien;
+	}
+	
 }
